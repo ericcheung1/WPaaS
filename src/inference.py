@@ -1,8 +1,9 @@
-from functions import sentiment_classifier
 import torch
+import uvicorn
+from fastapi import FastAPI, status
+from pydantic import BaseModel
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-from fastapi import FastAPI, status, Response
-
+from functions import sentiment_classifier, parse_payload, format_output
 
 local_distilbert = "./distilbert_model"
 
@@ -19,24 +20,25 @@ model = AutoModelForSequenceClassification.from_pretrained(
 
 app = FastAPI()
 
+class sentiment_payload(BaseModel):
+    user_id: list[str]
+    comment_id: list[str]
+    comments: list[str]
+
+
 @app.get("/ping", status_code=status.HTTP_201_CREATED)
 def ping():
     return "server online...!"
 
 
-@app.get("/invocation")
-def transformation():
-    x = 1
+@app.post("/invocation")
+def get_payload(input_payload: sentiment_payload):
+    payload = input_payload.model_dump()
+    reference_dataframe = parse_payload(payload)
+    outputs = sentiment_classifier(model, tokenizer, reference_dataframe)
+    results_json = format_output(outputs, reference_dataframe)
 
+    return results_json
 
-text = ["YURRR", "Hello how are you?", "Wow this is so delish"]
-
-outputs = sentiment_classifier(model=model, tokenizer=tokenizer, input=text)
-
-print(outputs)
-# print(len(outputs))
-for output in outputs.logits:
-    print(output)
-    predicted_class_id = torch.argmax(output, dim=-1).item()
-    predicted_label = model.config.id2label[predicted_class_id]
-    print(f"Predicted label: {predicted_label} confidences: {torch.argmax(torch.softmax(output, dim=-1))}")
+if __name__ == "__main__":
+    uvicorn.run("inference:app", reload=True)
