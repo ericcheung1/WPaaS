@@ -3,7 +3,8 @@ name: Build and Push to GHCR
 on:
   push:
     branches: [ "main" ]
-  # This allows you to run the workflow manually from the "Actions" tab
+    paths:
+      - 'src/**'
   workflow_dispatch:
 
 env:
@@ -64,6 +65,7 @@ jobs:
         with:
           context: ./src
           push: true
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
