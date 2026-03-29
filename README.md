@@ -2,7 +2,7 @@
 
 A lightweight REST API built using FastAPI for serving machine learning models such as sentiment analysis. The API exposes simple HTTP endpoints that allow external applications to submit data and receive predictions.
 
-This project is a generalization of my earlier Canucks sentiment analysis project `https://github.com/ericcheung1/canucks-sentiment`, where sentiment models were used to analyze fan discussions from Reddit.
+This project is a generalization of my earlier Canucks sentiment analysis project [canucks-sentiment](https://github.com/ericcheung1/canucks-sentiment), where sentiment models were used to analyze fan discussions from Reddit.
 
 ### Features
 
@@ -27,7 +27,6 @@ Request:
 
 
 Response: 
-# Note: first index of confidence array is the confidence of the text being negative and second index is confidence of text being positive
 
 [
     {
@@ -37,6 +36,7 @@ Response:
     }
 ]
 ```
+ Note: first index of the `sentiment_confidence` array is confidence of the text having negative sentiment and second index is confidence of text having positive sentiment
 
 ### Run Locally
 
@@ -44,7 +44,7 @@ This repository uses Git LFS to store model weights.
 Make sure Git LFS is installed with `git lfs install` before cloning.
 
 #### With Source
-Clone the repo, install dependencies with `pip install -r requirements.txt`, change into the `src` directory, then start FastAPI server with `uvicorn src/inference:app --host 0.0.0.0 --port 8000`.
+Clone the repo, change into the `src` directory, install dependencies with `pip install -r requirements.txt`, then start FastAPI server with `uvicorn inference:app --host 0.0.0.0 --port 8000`.
 
 #### With Docker
 Pull the latest build with `docker pull ghcr.io/ericcheung1/text-processing:main`, then start container with `docker run -p 8000:8000 ghcr.io/ericcheung1/text-processing:main`.
