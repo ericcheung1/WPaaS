@@ -25,6 +25,14 @@ Request:
     "comments":["this is pretty cool!"]
 }
 
+{
+   "comments": [{"comment_id":"012ecc", "comment":"this is pretty cool!"}]
+}
+
+{
+   "comments": [{"comment":"this is pretty cool!"}]
+}
+
 
 Response: 
 
