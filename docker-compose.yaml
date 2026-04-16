@@ -1,6 +1,6 @@
 services:
   web:
-    image: ghcr.io/ericcheung1/wpaas-sentiment
+    image: ghcr.io/ericcheung1/wpaas-sentiment:main
     ports:
       - "8000:8000"
     restart: always
