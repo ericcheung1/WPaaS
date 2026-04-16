@@ -1,15 +1,15 @@
-name: Build and Push to GHCR
+name: Build and Deploy Sentiment Model
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - 'src/**'
+      - 'models/sentiment/**'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ericcheung1/wpaas
+  IMAGE_NAME: ericcheung1/wpaas-sentiment
 
 jobs:
   build-and-push:
@@ -63,7 +63,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./src
+          context: .
+          file: ./models/sentiment/Dockerfile
           push: true
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}

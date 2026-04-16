@@ -1,9 +1,12 @@
 # Version control
 .git/
 .gitignore
+.gitattributes
+.github/
 
 # Python artifacts
 __pycache__/
+**/__pycache__
 *.py[cod]
 *$py.class
 *.so
@@ -28,7 +31,13 @@ var/
 wheels/
 
 # Docker-specific files that are not needed in the final image
-Dockerfile
-docker-compose*.yml
-.dockerignore
+**/Dockerfile
+docker-compose*.yaml
+docker-compose.yaml
+.Dockerignore
 .docker/
+
+# items on dev machine
+venv/
+dev/
+README.md
