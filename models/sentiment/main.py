@@ -1,37 +1,36 @@
-import torch
 import uvicorn
+from tokenizers import Tokenizer
+import onnxruntime as ort
 from fastapi import FastAPI, status
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from models.sentiment.core import process_inputs, sentiment_classifier, format_output
 from common.schemas import payload
 from pathlib import Path
 
-local_distilbert = Path("models/sentiment/distilbert_model")
+distilbert_onnx = Path("models/sentiment/distilbert_fp16_onnx/distilbert_fp16.onnx")
+tokenizer_json = Path("models/sentiment/distilbert_fp16_onnx/tokenizer.json")
 
-tokenizer = AutoTokenizer.from_pretrained(
-    local_distilbert,
-    local_files_only=True
-)
-model = AutoModelForSequenceClassification.from_pretrained(
-    local_distilbert,
-    local_files_only=True,
-    dtype=torch.float16,
-    attn_implementation="sdpa"
-)
+tokenizer = Tokenizer.from_file(str(tokenizer_json))
+tokenizer.enable_padding(
+    pad_id=0,
+    pad_token="[PAD]",
+    direction="right"
+    )
+
+model_session = ort.InferenceSession(distilbert_onnx, providers=["CPUExecutionProvider"])
 
 app = FastAPI()
 
 
 @app.get("/healthcheck", status_code=status.HTTP_201_CREATED)
 def ping():
-    return "\n"
+    return {"message": "service healthy"}
 
 
 @app.post("/sentiment")
 def process_sentiment(input_payload: payload):
 
     inputs, ids = process_inputs(input_payload)
-    outputs = sentiment_classifier(model, tokenizer, inputs, ids)
+    outputs = sentiment_classifier(model_session, tokenizer, inputs, ids)
     results = format_output(outputs)
 
     return results

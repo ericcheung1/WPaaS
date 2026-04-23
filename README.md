@@ -1,8 +1,8 @@
 # Word processing-as-a-service - NLP Inference API
 
-A lightweight, production‑style REST API built with FastAPI for serving natural langauge processing (NLP) models for taks such as sentiment analysis. The system and models are designed for deployment on CPU‑only, low‑memory environments such as a VPS with 1 GiB of memory. Emphasis of this project is placed on modularity, ease of deployment, and trying to learn scalable patterns.
+A lightweight, production‑style REST API built with FastAPI for serving natural langauge processing (NLP) models for tasks such as sentiment analysis. The system and models are designed for deployment on CPU‑only, low‑memory environments such as a VPS with 1 GiB of memory. Emphasis of this project is placed on modularity, ease of deployment, and utilizing scalable patterns.
 
-Each model/endpoint is isolated to build as its own container image, sharing a common Pydantic schema for consistent validation. This architecture enables flexible deployment, easier extension to new NLP tasks, and minimal resource usage. Model weights are also included and stored with Git LFS to keep dependicies minimal.
+Each model/endpoint is isolated to build as its own container image, sharing a common Pydantic schema for consistent validation. This architecture enables easier deployment, easier extension to new NLP tasks, and minimal resource usage. Model weights are also included and stored with Git LFS to keep dependicies minimal.
 
 This project generalizes my earlier Canucks sentiment analysis work @ [github.com/ericcheung1/canucks-sentiment](https://github.com/ericcheung1/canucks-sentiment), evolving from a single Flask app with hardcoded logic into a scalable, multi‑model inference service.
 
