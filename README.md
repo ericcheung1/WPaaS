@@ -4,8 +4,7 @@ A lightweight, production‑style REST API built with FastAPI for serving natura
 
 This project generalizes my earlier Canucks sentiment analysis work @ [github.com/ericcheung1/canucks-sentiment](https://github.com/ericcheung1/canucks-sentiment), turning from a single Flask app with hardcoded logic into a scalable, multi‑model inference service.
 
-
-## Architectural Diagram
+## Overview
 
 ![Architecture](docs/wpaas-diagram.png)
 
