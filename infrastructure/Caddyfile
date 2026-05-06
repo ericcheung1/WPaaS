@@ -1,0 +1,3 @@
+wpaa-service.online, www.wpaa-service.online {
+    reverse_proxy sentiment:8000
+}

@@ -33,5 +33,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/wpaas
-            docker compose pull nginx
-            docker compose up -d --remove-orphans nginx
+            docker compose pull caddy
+            docker compose up -d --remove-orphans caddy
